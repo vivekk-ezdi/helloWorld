@@ -1,5 +1,6 @@
-package memory;
+package memory.graphdb;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.neo4j.graphdb.GraphDatabaseService;
@@ -19,8 +20,21 @@ import org.neo4j.graphdb.schema.Schema;
 import org.neo4j.graphdb.traversal.BidirectionalTraversalDescription;
 import org.neo4j.graphdb.traversal.TraversalDescription;
 
-public class MemoryGraphService implements GraphDatabaseService
+import memory.entity.MemoryNode;
+
+public class MemoryGraphDatabase implements GraphDatabaseService
 {
+	private long			globalID	= 0;
+
+	private Map<Long, Node>	nodeMap		= null;
+
+	//****************************************************************//
+	public MemoryGraphDatabase()
+	{
+		this.nodeMap = new HashMap<Long, Node>();
+	}
+
+	//****************************************************************//
 	@Override
 	public boolean isAvailable(long timeout)
 	{
@@ -28,13 +42,14 @@ public class MemoryGraphService implements GraphDatabaseService
 		return false;
 	}
 
+	//****************************************************************//
 	@Override
 	public void shutdown()
 	{
 		// TODO Auto-generated method stub
-
 	}
 
+	//****************************************************************//
 	@Override
 	public Transaction beginTx()
 	{
@@ -42,6 +57,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public Schema schema()
 	{
@@ -49,6 +65,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public IndexManager index()
 	{
@@ -56,6 +73,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public Node getNodeById(long id)
 	{
@@ -63,6 +81,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public Relationship getRelationshipById(long id)
 	{
@@ -70,13 +89,17 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public Node createNode()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		globalID++;
+		Node n = new MemoryNode(globalID);
+		nodeMap.put(globalID, n);
+		return n;
 	}
 
+	//****************************************************************//
 	@Override
 	public Node createNode(Label... labels)
 	{
@@ -84,6 +107,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public Result execute(String query) throws QueryExecutionException
 	{
@@ -91,6 +115,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public Result execute(String query, Map<String, Object> parameters) throws QueryExecutionException
 	{
@@ -98,6 +123,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public Iterable<Node> getAllNodes()
 	{
@@ -105,6 +131,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public ResourceIterator<Node> findNodes(Label label, String key, Object value)
 	{
@@ -112,6 +139,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public Node findNode(Label label, String key, Object value)
 	{
@@ -119,6 +147,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public ResourceIterator<Node> findNodes(Label label)
 	{
@@ -126,6 +155,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public ResourceIterable<Node> findNodesByLabelAndProperty(Label label, String key, Object value)
 	{
@@ -133,6 +163,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public Iterable<RelationshipType> getRelationshipTypes()
 	{
@@ -140,6 +171,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public <T> TransactionEventHandler<T> registerTransactionEventHandler(TransactionEventHandler<T> handler)
 	{
@@ -147,6 +179,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public <T> TransactionEventHandler<T> unregisterTransactionEventHandler(TransactionEventHandler<T> handler)
 	{
@@ -154,6 +187,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public KernelEventHandler registerKernelEventHandler(KernelEventHandler handler)
 	{
@@ -161,6 +195,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public KernelEventHandler unregisterKernelEventHandler(KernelEventHandler handler)
 	{
@@ -168,6 +203,7 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public TraversalDescription traversalDescription()
 	{
@@ -175,10 +211,13 @@ public class MemoryGraphService implements GraphDatabaseService
 		return null;
 	}
 
+	//****************************************************************//
 	@Override
 	public BidirectionalTraversalDescription bidirectionalTraversalDescription()
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	//****************************************************************//
 }
